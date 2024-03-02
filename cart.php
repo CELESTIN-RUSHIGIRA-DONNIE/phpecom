@@ -1,6 +1,7 @@
 <?php
 include('functions/userfunctions.php');
 include('includes/header.php');
+include('authenticate.php');
 
 ?>
 
@@ -42,8 +43,9 @@ include('includes/header.php');
                     <?php
 
                     $items = getCartItems();
-                    foreach ($items as $citem) {
-                    ?>
+                    foreach ($items as $citem) 
+                    {
+                        ?>
                         <div class="card shadow-sm mb-3">
                             <div class="row align-items-center">
                                 <div class="col-md-2">
@@ -58,23 +60,28 @@ include('includes/header.php');
                                 </div>
 
                                 <div class="col-md-2">
+                                    <input type="hidden" class="prodId" value="<?= $citem['prod_id'] ?>">
                                     <div class="input-group mb-3" style="width:130px">
-                                        <button class="input-group-text decrement-btn">-</button>
+                                        <button class="input-group-text decrement-btn updateQty">-</button>
                                         <input type="text" class="form-control bg-white text-center input-qty" value="<?= $citem['prod_qty'] ?>" disabled>
-                                        <button class="input-group-text increment-btn">+</button>
+                                        <button class="input-group-text increment-btn updateQty">+</button>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                    <button class="btn btn-danger btn-sm deleteItem" value="<?= $citem['cid'] ?>"><i class="fa fa-trash"></i></button>
                                 </div>
                             </div>
                         </div>
 
-                    <?php
+                        <?php
                         // echo $citem['name'];
                     }
 
                     ?>
+                </div>
+
+                <div class="float-end">
+                    <a href="checkout.php" class="btn btn-outline-primary float-end">Procced to checkout</a>
                 </div>
             </div>
         </div>

@@ -14,6 +14,7 @@ if(isset($_SESSION['auth']))
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6"> 
+
                 <?php 
                     if(isset($_SESSION['message']))
                     { 
@@ -28,7 +29,7 @@ if(isset($_SESSION['auth']))
                 ?>
                 <div class="card">
                     <div class="card-header">
-                        <h4>Register Form</h4>
+                        <h4>Login form</h4>
                     </div>
                     <div class="card-body">
                         <form action="functions/authcode.php" method="POST">
