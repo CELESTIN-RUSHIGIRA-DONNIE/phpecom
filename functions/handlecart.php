@@ -21,7 +21,7 @@ if(isset($_SESSION['auth']))
                 
                 if(mysqli_num_rows($chk_existing_cart_run) > 0)
                 {
-                    echo "e xisting";
+                    echo "existing";
                 }
                 else
                 {
