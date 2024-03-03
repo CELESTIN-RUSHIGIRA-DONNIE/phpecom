@@ -39,10 +39,30 @@ include('config/dbcon.php');
         return $query_run = mysqli_query($con, $query);
     }
 
+    function getOrders()
+    {
+        global $con;
+        $userId= $_SESSION['auth_user']['user_id'];
+        $query = "SELECT * FROM orders WHERE user_id='$userId' ORDER BY id DESC";
+        
+        return $query_run  = mysqli_query($con,$query);
+    }
+
     function redirect($url, $message)
     {
         $_SESSION['message'] = $message;
         header('location:'.$url);
         exit();
+    }
+
+    function checkTrackingNoValid($trackingNo)
+    {
+        global $con;
+        $userId= $_SESSION['auth_user']['user_id'];
+
+        $query = "SELECT * FROM orders WHERE tracking_no='$trackingNo' AND user_id='$userId'";
+        return mysqli_query($con,$query);
+
+
     }
 ?> 

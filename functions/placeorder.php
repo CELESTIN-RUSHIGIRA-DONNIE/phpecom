@@ -35,10 +35,7 @@ if(isset($_SESSION['auth']))
 
         $tracking_no = "celestin".rand(1111,9999).substr($phone,2);
 
-        $insert_query = "INSERT INTO orders 
-        (tracking_no, user_id, name, email, phone, adress, pincode,total_price, payment_mode, payment_id) 
-        VALUES 
-        ('$tracking_no','$user_id','$name','$email','$phone', '$adress', '$pincode','$totalPrice','$payment_mode','$payment_id')";
+        $insert_query = "INSERT INTO orders (tracking_no,user_id,name,email,phone,adress,pincode,total_price,payment_mode,payment_id) VALUES ('$tracking_no','$user_id','$name','$email','$phone','$adress','$pincode','$totalPrice','$payment_mode','$payment_id')";
     
         $insert_query_run = mysqli_query($con,$insert_query);
 
@@ -53,9 +50,23 @@ if(isset($_SESSION['auth']))
                 
                 $insert_items_query = "INSERT INTO order_items(order_id, prod_id, qty, price) VALUES ('$order_Id','$prod_id','$prod_qty','$price')";
                 $insert_items_query_run = mysqli_query($con, $insert_items_query);
-                
+               
+                $product_query = "SELECT * FROM products WHERE id='$prod_id' LIMIT 1";
+                $product_query_run = mysqli_query($con, $product_query);
+
+                $productdata = mysqli_fetch_array($product_query_run);
+                $current_qty = $productdata['qty'];
+
+                $new_qty = $current_qty - $prod_qty;
+
+                $update_query = "UPDATE products SET qty='$new_qty' WHERE id='$prod_id'";
+                $update_query_run = mysqli_query($con,$update_query);
             }
+
+            $deleteCartQuery = "DELETE FROM carts WHERE user_id='$user_id'";
+            $deleteCartQuery_run = mysqli_query($con,$deleteCartQuery);
             
+
             $_SESSION['message'] = "Order placed Successfully";
             header('Location: ../my-orders.php');
             die();
