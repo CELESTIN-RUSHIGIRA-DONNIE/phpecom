@@ -49,8 +49,9 @@ $Data = mysqli_fetch_array($orderData);
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">
-                            View Order
+                        <div class="card-header bg-primary">
+                            <span class="text-white fs-4">View Order</span>
+                            <a href="my-orders.php" class="btn btn-warning float-end btn-sm"><i class="fa fa-reply"></i> Back</a>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -105,26 +106,71 @@ $Data = mysqli_fetch_array($orderData);
                                         <thead>
                                             <tr>
                                                 <th>Product</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
                                             </tr>
                                         </thead>
-                                    </table>
-                                    <?php
+                                        <tbody>
+                                            <?php
 
-                                        $userId= $_SESSION['auth_user']['user_id'];
-                                        $order_query = "SELECT o.id as oid, o.tracking_no, o.user_id, oi.*, p.*
-                                        FROM orders o, order_items oi, products p WHERE o.user_id='$userId' AND oi.order_id=o.id AND p.id=oi.prod_id 
-                                        AND o.tracking_no='$tracking_no'";
+                                            $userId = $_SESSION['auth_user']['user_id'];
+                                            $order_query = "SELECT o.id as oid, o.tracking_no, o.user_id, oi.*, oi.qty as orderqty, p.*
+                                                    FROM orders o, order_items oi, products p WHERE o.user_id='$userId' AND oi.order_id=o.id AND p.id=oi.prod_id 
+                                                    AND o.tracking_no='$tracking_no'";
 
-                                        $order_query_run = mysqli_query($con, $order_query);
-                                        if(mysqli_num_rows($order_query_run) > 0)
-                                        {
-                                            foreach($order_query_run as $items)
+                                            $order_query_run = mysqli_query($con, $order_query);
+                                            if (mysqli_num_rows($order_query_run) > 0)
                                             {
+                                                foreach ($order_query_run as $items) 
+                                                {
+                                                ?>
+                                                    <tr>
+                                                        <td class="align-middle">
+                                                            <img src="uploads/<?=$items['image'] ?>" width="50px" height="50px" alt="<?=$items['name'] ?>">
+                                                            <?=$items['name'] ?>
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            <?=$items['price'] ?>
+                                                        </td>
+                                                        <td class="align-middle"> 
+                                                            <?=$items['orderqty'] ?>
+                                                        </td>
+                                                    </tr>
 
+                                                <?php
+                                                }
                                             }
-                                        }
 
-                                    ?>
+                                            ?>
+                                        </tbody>
+                                    </table>
+
+                                    <hr>
+                                    <h5>Total Price : <span class="float-end fw-bold"><?= $Data['total_price'] ?></span></h5>
+                                    <hr>
+
+                                    <label class="fw-bold">Payment Mode</label>
+                                    <div class="border p-1 mb-3">
+                                        <?= $Data['payment_mode'] ?>
+                                    </div>
+                                    <label class="fw-bold">Status</label>
+                                    <div class="border p-1 mb-3">
+                                        <?php 
+                                        if($Data['status'] == 0)
+                                        {
+                                            echo"Under Process";
+                                        }
+                                        else if($Data['status'] == 1)
+                                        {
+                                            echo"Completed";
+                                        }
+                                        else if($Data['status'] == 2)
+                                        {
+                                            echo"Cancelled";
+                                        }
+                                        ?>
+                                    </div>
+                                
                                 </div>
                             </div>
                         </div>
