@@ -32,7 +32,7 @@ include('includes/header.php');
                                         <a href="products.php?category=<?= $item['slug']; ?>">
                                             <div class="card shadow">
                                                 <div class="card-body">
-                                                    <img src="uploads/<?= $item['image']; ?>" alt="Category image" class="w-100">
+                                                    <img src="uploads/<?= $item['image']; ?>" height="200px" alt="Category image" class="w-100">
                                                     <h4 class="text-center"><?= $item['name']; ?></h4>
                                                 </div>
                                             </div>
