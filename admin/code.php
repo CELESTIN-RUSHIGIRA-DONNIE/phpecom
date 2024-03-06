@@ -235,6 +235,18 @@ else if(isset($_POST['delete_product_btn']))
         echo 500;
     }
 }
+
+else if(isset($_POST['updateOrder']))
+{
+    $track_no = $_POST['tracking_no'];
+
+    $order_status = $_POST['order_status'];
+
+    $updateOrder_query = "UPDATE orders SET status='$order_status' WHERE tracking_no='$track_no' ";
+    $updateOrder_query_run = mysqli_query($con, $updateOrder_query);
+
+    redirect("view-order.php?t=$track_no", "Order Status Updated");
+}
 else{
     header('location: ../index.php');
 } 

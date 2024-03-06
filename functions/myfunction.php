@@ -23,5 +23,20 @@ function redirect($url, $message)
     header('location:'.$url);
     exit();
 }
+function geAllOrders()
+{
+    global $con;
+    $query = "SELECT * FROM orders WHERE status='0' ";
+    return $query_run = mysqli_query($con, $query);
+}
+
+function checkTrackingNoValid($trackingNo)
+{
+    global $con;
+    $query = "SELECT * FROM orders WHERE tracking_no='$trackingNo'";
+    return mysqli_query($con,$query);
+
+
+}
 
 ?>
